@@ -41,7 +41,7 @@ $cedula = $_SERVER['HTTP_CEDULA'];
 
 // Consultar usuario por Cedula
 $usuarioData = $usuario->obtener_usuario_por_cedula($cedula);
-
+ 
 if (!$usuarioData) {
     echo json_encode(["Error" => "Usuario no encontrado"]);
     http_response_code(404);
