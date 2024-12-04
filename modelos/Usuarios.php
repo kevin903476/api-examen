@@ -26,7 +26,7 @@ class Usuario extends Conectar {
         parent::establecer_codificacion();
         
         // Consulta SQL para obtener una propietario     específica por su ID
-        $consulta_sql = "SELECT * FROM casa WHERE cedula = ?";
+        $consulta_sql = "SELECT * FROM usuario WHERE cedula = ?";
 
         // Prepara la consulta SQL
         $consulta = $conexion->prepare($consulta_sql);
@@ -69,7 +69,7 @@ class Usuario extends Conectar {
             $sentencia->bindValue(2, $pass);
             $sentencia->bindValue(3, $cedula);
 
-        }
+        
     
         // Ejecuta la sentencia
         $sentencia->execute();
