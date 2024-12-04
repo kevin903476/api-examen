@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once("../configuracion/conexion.php");
 require_once("../modelos/Producto.php");
 
+require_once("../modelos/Usuarios.php");
 
 /* function desencriptarBody($jsonEncriptado, $clave) {
     $method = $_SERVER['REQUEST_METHOD'];
@@ -28,7 +29,7 @@ require_once("../modelos/Producto.php");
         return $jsonDesencriptado;
 }
  */
-
+$usuario = new Usuario();
 $producto = new Producto();
 
 
