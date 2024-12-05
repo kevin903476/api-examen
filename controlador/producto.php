@@ -39,6 +39,11 @@ if (!isset($_SERVER['HTTP_CEDULA'])) {
     http_response_code(400);
     exit();
 }
+if (!isset($_SERVER['HTTP_PASS'])) {
+    echo json_encode(["Error" => "Encabezado password no está en el Header"]);
+    http_response_code(400);
+    exit();
+}
 $cedula = $_SERVER['HTTP_CEDULA'];
 
 // Consultar usuario por Cedula
@@ -50,14 +55,22 @@ if (!$usuarioData) {
     exit();
 }
 
-//$claveCifrado = $usuarioData[0]["pass"];
+$pass = $_SERVER['HTTP_PASS'];
+$claveCifrado = $usuarioData[0]["pass"];
+
+
 
 if ($usuarioData && $cedula == "01") {
-    $body = json_decode(file_get_contents("php://input"), true);
-}else {
-    echo json_encode(["Error" => "Cedula no autorizada"]);
+    if($pass == $claveCifrado){
+        $body = json_decode(file_get_contents("php://input"), true);
+    }else{
+        echo json_encode(["Error" => "Password Incorrecta"]);
     exit();
-}
+    }
+    }else {
+        echo json_encode(["Error" => "Cedula no autorizada"]);
+        exit();
+    }
 
 
 
@@ -75,28 +88,28 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
     case "GET":
-        $datos = $producto->obtener_usuario();
+        $datos = $producto->obtener_producto();
         echo json_encode($datos);
         break;
 
     case "POST":
-        $resultado = $producto->insertar_usuario($body["nombre"], $body["empresa"]);
-        echo json_encode(["Correcto" => "Usuario creado"]);
+        $resultado = $producto->insertar_producto($body["nombre"], $body["empresa"]);
+        echo json_encode(["Correcto" => "Producto creado"]);
         break;
 
     case "PUT":
-        $resultado = $producto->actualizar_usuario( $body["nombre"], $body["pass"],$body["idProducto"]);
-        echo json_encode(["Correcto" => "Usuario actualizado"]);
+        $resultado = $producto->actualizar_producto( $body["nombre"], $body["empresa"],$body["idProducto"]);
+        echo json_encode(["Correcto" => "Producto actualizado"]);
         break;
 
     case "DELETE":
-        $resultado = $producto->eliminar_usuario($body["idProducto"]);
-        echo json_encode(["Correcto" => "Usuario eliminado"]);
+        $resultado = $producto->eliminar_producto($body["idProducto"]);
+        echo json_encode(["Correcto" => "Producto eliminado"]);
         break;
 
     case "PATCH":
         // Realiza una búsqueda por cédula
-        $datos = $producto->obtener_usuario_por_cedula($body["idProducto"]);
+        $datos = $producto->obtener_producto_por_id($body["idProducto"]);
         echo json_encode($datos);   
         break;
 

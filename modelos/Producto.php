@@ -78,7 +78,7 @@ class Producto extends Conectar {
     }
 
     // Desactiva (elimina lógicamente) una categoría
-    public function eliminar_usuario($id) {
+    public function eliminar_producto($id) {
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();
